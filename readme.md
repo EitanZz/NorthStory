@@ -1,5 +1,6 @@
 
 ![NorthStory Logo](images/northstory-logo-cropped.png)
+---
 NorthStory is a social learning & support platform designed for students evacuated from their homes due to war.  
 It offers:
 
@@ -11,6 +12,4 @@ It offers:
 
 Built with ❤️ to help students stay connected, learn, and smile — even in tough times.
 
----
 
-![NorthStory Logo](images/northstory-logo-cropped.png)
