@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NorthStory - Study & Fun</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-100 font-sans transition-colors duration-300">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow p-4 flex justify-between items-center sticky top-0 z-10">
+    <img src="images/northstory-logo-cropped.png" alt="NorthStory Logo" class="w-15 h-10 mr-1" />
+    <div class="space-x-4">
+      <a href="login.html" class="text-gray-700 hover:text-blue-500">Login</a>
+      <a href="register.html" class="text-gray-700 hover:text-blue-500">Register</a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="max-w-5xl mx-auto mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+
+    <!-- Sidebar with Mode Toggle + Game + Study Groups -->
+    <aside class="bg-white rounded-xl shadow p-4 md:col-span-1 hidden md:block">
+      <h2 class="text-lg font-semibold mb-4">Select Mode</h2>
+      <div class="space-y-2">
+        <button onclick="setFeedFilter('all')" class="w-full bg-gray-200 hover:bg-gray-300 text-sm px-4 py-2 rounded" id="btn-all">🌐 All</button>
+        <button onclick="setFeedFilter('study')" class="w-full bg-blue-100 hover:bg-blue-200 text-sm px-4 py-2 rounded" id="btn-study">📚 Study Chats</button>
+        <button onclick="setFeedFilter('fun')" class="w-full bg-pink-100 hover:bg-pink-200 text-sm px-4 py-2 rounded" id="btn-fun">🎉 Fun Chats</button>
+        <button onclick="openGameZone()" class="w-full bg-yellow-100 hover:bg-yellow-200 text-sm px-4 py-2 rounded">🎮 Game Zone</button>
+        <button onclick="openJournal()" class="w-full bg-green-100 hover:bg-green-200 text-sm px-4 py-2 rounded">✍️ Journal</button>
+        <div class="relative">
+          <button onclick="toggleStudyGroups()" class="w-full bg-purple-100 hover:bg-purple-200 text-sm px-4 py-2 rounded mt-2">🗣️ Study Groups</button>
+          <div id="studyGroupsMenu" class="hidden mt-2 bg-white border rounded shadow text-sm">
+            <a href="#" onclick="openStudyGroup('Chemistry')" class="block px-4 py-2 hover:bg-gray-100">🧪 Chemistry</a>
+            <a href="#" onclick="openStudyGroup('Math')" class="block px-4 py-2 hover:bg-gray-100">🧮 Math</a>
+            <a href="#" onclick="openStudyGroup('Programming')" class="block px-4 py-2 hover:bg-gray-100">💻 Programming</a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Feed + Game + Post Input -->
+    <section class="md:col-span-3 space-y-6">
+      <!-- Daily Uplift -->
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-xl shadow">
+        <p id="dailyUplift" class="text-sm italic">"Every day may not be good, but there's something good in every day."</p>
+      </div>
+
+      <h2 class="text-lg font-semibold">Feed</h2>
+
+      <!-- Post Input -->
+      <div class="bg-white p-4 rounded-xl shadow" id="postInputBox">
+        <textarea id="postInput" class="w-full p-2 border rounded" placeholder="What's on your mind?"></textarea>
+        <select id="postCategory" class="mt-2 p-2 border rounded w-full">
+          <option value="study">📚 Study</option>
+          <option value="fun">🎉 Fun</option>
+        </select>
+        <button onclick="sharePost()" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Post</button>
+      </div>
+
+      <!-- Posts Feed -->
+      <div id="posts" class="space-y-4"></div>
+
+      <div id="journalZone" class="hidden"></div>
+
+      <!-- Game Zone -->
+      <div id="gameZone" class="bg-white p-4 rounded-xl shadow hidden">
+        <h2 class="text-lg font-semibold mb-4">🎮 Game Zone</h2>
+
+        <!-- Game Selector -->
+        <div class="mb-4">
+          <label for="gameSelect" class="block text-sm font-medium text-gray-700 mb-2">Choose a Game:</label>
+          <select id="gameSelect" onchange="switchGame()" class="w-full p-2 border rounded">
+            <option value="ticTacToe">Tic Tac Toe</option>
+            <option value="quiz">Quick CS Quiz</option>
+          </select>
+        </div>
+
+        <!-- Tic Tac Toe Game -->
+        <div id="ticTacToeGame">
+          <div id="gameBoard" class="grid grid-cols-3 gap-2 max-w-xs mx-auto"></div>
+          <p id="gameStatus" class="text-center mt-4 font-medium"></p>
+          <button onclick="resetGame()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded mx-auto block">Restart Game</button>
+        </div>
+
+        <!-- Quiz Game -->
+        <div id="quizZone" class="hidden">
+          <h2 class="text-lg font-semibold mb-4">🧠 Quick CS Quiz</h2>
+          <div id="quizQuestion" class="mb-4 text-lg font-medium"></div>
+          <div id="quizOptions" class="space-y-2"></div>
+          <div id="quizFeedback" class="mt-4 text-sm font-semibold"></div>
+          <button id="nextBtn" onclick="nextQuestion()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hidden">Next Question</button>
+          <button onclick="resetQuiz()" class="mt-2 text-sm text-blue-500 underline">Restart Quiz</button>
+        </div>
+
+        <!-- Placeholder for future games -->
+        <div id="otherGamePlaceholder" class="hidden text-center text-gray-500 mt-6">
+          This game is not available yet. Coming soon! 🚧
+        </div>
+      </div>
+
+      <!-- Study Group Chat Zone -->
+      <div id="studyGroupZone" class="hidden"></div>
+    </section>
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded shadow hidden"></div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
